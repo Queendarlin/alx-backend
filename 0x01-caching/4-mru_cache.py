@@ -1,51 +1,54 @@
 #!/usr/bin/env python3
-"""
-Module for MRU Caching
-"""
+""" MRUCache module """
 
 from base_caching import BaseCaching
 
 
 class MRUCache(BaseCaching):
-    """ MRU (Most Recently Used) caching system """
+    """
+    MRUCache defines a Most Recently Used caching system.
+    """
 
     def __init__(self):
-        """ Initialize the MRUCache """
+        """
+        Initialize the MRUCache with the parent's init method
+        and set up order tracking.
+        """
         super().__init__()
-        self.cache_data = {}  # Dictionary to store cache data
-        self.order = []  # List to maintain the order of access
+        self.order = []  # List to track the order of usage for MRU
 
     def put(self, key, item):
-        """ Add an item to the cache """
+        """
+        Cache a key-value pair.
+        """
         if key is None or item is None:
             return
 
-        # If the key is already in the cache
-        # update its value and move it to the end
-        if key in self.cache_data:
-            self.cache_data[key] = item
-            self.order.remove(key)
-            self.order.append(key)
-        else:
-            # Add the new item to the cache
-            self.cache_data[key] = item
-            self.order.append(key)
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            if key not in self.cache_data:
+                # Discard the most recently used item
+                # The most recently used key is at the end of the list
+                mru_key = self.order[-1]
+                del self.cache_data[mru_key]  # Remove from cache
+                self.order.remove(mru_key)  # Remove from order tracking
+                print(f"DISCARD: {mru_key}")
 
-        # If the cache exceeds the maximum number of items
-        # discard the most recently used item
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            # The most recently used item is the last one in the order list
-            most_recent_key = self.order.pop(-1)
-            del self.cache_data[most_recent_key]
-            print(f"DISCARD: {most_recent_key}")
+        if key in self.cache_data:
+            # Remove the key from its previous position
+            self.order.remove(key)
+        self.cache_data[key] = item  # Add or update the cache
+        # Add the key to the end to mark it as most recently used
+        self.order.append(key)
 
     def get(self, key):
-        """ Retrieve an item from the cache """
+        """
+        Return the value linked to the given key, or None.
+        """
         if key is None or key not in self.cache_data:
             return None
 
-        # Move the accessed key to the end
-        # to mark it as the most recently used
+        # Move the accessed key to the end of the order list
+        # to mark it as most recently used
         self.order.remove(key)
         self.order.append(key)
 
