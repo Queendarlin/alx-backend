@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome{% endblock %}</title>
+</head>
+<body>
+    <h1>{% block header %}Welcome to the app{% endblock %}</h1>
+    <p>
+        {% if g.user %}
+            {{ _('You are logged in as %(username)s.', username=g.user['name']) }}
+        {% else %}
+            {{ _('You are not logged in.') }}
+        {% endif %}
+    </p>
+</body>
+</html>
