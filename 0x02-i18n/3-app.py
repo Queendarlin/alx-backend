@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Module for a Basic Flask app with Babel setup
+Configurtions and translations set
 """
 
 from flask_babel import Babel, _
@@ -8,7 +9,7 @@ from flask import Flask, render_template, request
 
 
 class Config:
-    """Configuration class for Flask app."""
+    """Configuration class for Flask app to translate different languages."""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"

@@ -9,7 +9,7 @@ from typing import Union, Dict
 
 
 class Config:
-    """Configuration class for Flask app."""
+    """Configuration class for Flask app with language translations."""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -38,7 +38,7 @@ def get_user() -> Union[Dict, None]:
         dict or None: User dictionary or None if not found or not logged in.
     """
     user_id = request.args.get('login_as')
-    if user_id and user_id.isdigit():
+    if user_id:
         return users.get(int(user_id))
     return None
 

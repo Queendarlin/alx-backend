@@ -9,7 +9,7 @@ from typing import Union, Dict
 
 
 class Config:
-    """Configuration class for Flask app."""
+    """Configuration class for Flask app for language translation."""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
